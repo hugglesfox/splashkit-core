@@ -2,10 +2,6 @@
 # CMake file for generating the splashkit core library
 #
 
-if (APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "Minimum OS X deployment version")
-endif()
-
 cmake_minimum_required(VERSION 3.2)
 project(splashkit)
 
@@ -25,8 +21,6 @@ set(SK_DEPLOY_ROOT "${SK_OUT}/skm")
 if (WIN32 OR MSYS OR MINGW)
     SET(MSYS "true")
 
-    
-
     string(COMPARE EQUAL "MINGW32" "$ENV{MSYSTEM}" MINGW32)
     string(COMPARE EQUAL "MINGW64" "$ENV{MSYSTEM}" MINGW64)
 
@@ -42,7 +36,7 @@ if (WIN32 OR MSYS OR MINGW)
         message(SEND_ERROR "Failed to detect windows architecture")
         return ()
     endif()
-    
+
     add_definitions(-DWINDOWS)
     set(LIB_FLAGS  "-L${SK_LIB}/${OS_PATH_SUFFIX} \
                     -L/${MINGW_PATH_PART}/lib \
@@ -68,6 +62,7 @@ if (WIN32 OR MSYS OR MINGW)
         "${SK_LIB}/${OS_PATH_SUFFIX}/*.dll"
     )
 elseif (APPLE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.5" CACHE STRING "Minimum OS X deployment version")
     set(OS_PATH_SUFFIX "macos")
     # MAC OS PROJECT FLAGS
     set(LIB_FLAGS "-L${SK_LIB}/mac \
@@ -111,7 +106,7 @@ elseif (APPLE)
 else()
     set(OS_PATH_SUFFIX "linux")
     find_package(PNG REQUIRED)
-    include_directories(${PNG_INCLUDE_DIR})    
+    include_directories(${PNG_INCLUDE_DIR})
     SET(LINUX "true")
     set(LIB_FLAGS "-lSDL2 \
                    -lSDL2_mixer \
@@ -140,7 +135,7 @@ else()
 endif()
 
 # FLAGS
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 # SOURCE FILES
 file(GLOB SOURCE_FILES
@@ -206,6 +201,10 @@ target_link_libraries(SplashKit ${LIB_FLAGS})
 
 if (LINUX)
     target_link_libraries(SplashKit ${PNG_LIBRARY})
+endif()
+
+if ( MSYS )
+  set_target_properties(SplashKit PROPERTIES PREFIX "")
 endif()
 
 get_filename_component(SK_DEPLOY_ROOT ${SK_DEPLOY_ROOT} ABSOLUTE)

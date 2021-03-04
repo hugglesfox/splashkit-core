@@ -44,14 +44,12 @@ case $doit in
   *) exit -1 ;;
 esac
 
-if [[ `uname` == MINGW* ]]; then
-  read -p "Delete cmake cache? [y,n] " doit
-  case $doit in
-    y|Y) DELETE_CMAKE_CACHE=true ;;
-    n|N) echo ; echo "Keeping cache" ;;
-    *) exit -1 ;;
-  esac
-fi
+read -p "Delete cmake cache? [y,n] " doit
+case $doit in
+  y|Y) DELETE_CMAKE_CACHE=true ;;
+  n|N) echo ; echo "Keeping cache" ;;
+  *) exit -1 ;;
+esac
 
 if [[ $GENERATE_LIB ]]; then
   echo
@@ -111,6 +109,4 @@ cd "${APP_PATH}"
 if [[ `uname` == MINGW* ]]; then
   rm ${SK_OUT}/skm/lib/win32/*.a
   rm ${SK_OUT}/skm/lib/win64/*.a
-  cp ${SK_OUT}/skm/lib/win64/libSplashKit.dll ${SK_OUT}/skm/lib/win64/SplashKit.dll
-  cp ${SK_OUT}/skm/lib/win32/libSplashKit.dll ${SK_OUT}/skm/lib/win32/SplashKit.dll
 fi

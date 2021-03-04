@@ -70,7 +70,7 @@ namespace splashkit_lib
     web_server start_web_server(unsigned short port);
 
     /**
-     * Creates a new web server instance and starts it.
+     * Creates a new web server listening for connections on port 8080.
      *
      * @attribute constructor true
      * @attribute class       web_server
@@ -132,7 +132,7 @@ namespace splashkit_lib
      * @attribute self  r
      * @attribute method send_response
      *
-     * @attribute suffix  with_status_and_content_type
+     * @attribute suffix  with_status_and_content_type_and_headers
      */
     void send_response(http_request r, http_status_code code, const string &message, const string &content_type, const vector<string> &headers);
 

@@ -42,7 +42,8 @@ if (WIN32 OR MSYS OR MINGW)
                    -L/usr/lib \
                  -lSplashKit")
 elseif (APPLE)
-    set(SK_OS_DEPLOY_PATH "${SK_OUT}/splashkit-macos")
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.5" CACHE STRING "Minimum OS X deployment version")
+    set(OS_PATH_SUFFIX "macos")
     # MAC OS PROJECT FLAGS
     set(LIB_FLAGS "-L${SK_OUT}/splashkit-macos/lib \
                    -llibSplashKit \
@@ -71,7 +72,7 @@ else()
 endif()
 
 # FLAGS
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 #### END SETUP ####
 
